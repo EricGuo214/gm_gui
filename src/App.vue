@@ -27,28 +27,28 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item>
+          <v-list-item to="/">
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/about">
+          <v-list-item to="/tenants">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Tenant</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/activities">
+          <v-list-item to="/groups">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Group</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/myVids">
+          <v-list-item to="/memebers">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>

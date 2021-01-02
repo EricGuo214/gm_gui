@@ -27,6 +27,11 @@ const routes = [
       guest: true
     }
   },
+  {
+  path: '/tenants',
+  name: 'Tenants',
+  component: () => import('../components/Tenants.vue')
+  },
 ]
 
 const router = new VueRouter({
