@@ -28,10 +28,22 @@ const routes = [
     }
   },
   {
-  path: '/tenants',
-  name: 'Tenants',
-  component: () => import('../components/Tenants.vue')
+    path: '/tenants',
+    name: 'Tenants',
+    component: () => import('../components/Tenants.vue')
   },
+  {
+    path: '/tenants/:tenantName/groups',
+    name: 'Groups',
+    component: () => import('../components/Groups.vue'),
+    props: true,
+  },
+  {
+    path: '/tenants/:tenantName/groups/:groupName/members',
+    name: 'Members',
+    component: () => import('../components/Members.vue'),
+    props: true,
+  }
 ]
 
 const router = new VueRouter({

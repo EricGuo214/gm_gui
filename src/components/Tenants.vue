@@ -1,9 +1,13 @@
 <template>
   <div>
+    <h1>Your Tenants</h1>
     <v-btn color="primary" @click="listTenants"> Refresh </v-btn>
     <v-list dense>
       <v-list-item v-for="(item, i) in items" :key="i">
         <v-list-item-icon>
+          <v-icon medium @click="onShowGroups(item.name)">
+            mdi-account-multiple ></v-icon
+          >
           <v-icon medium @click="onDeleteItem(item)"> mdi-delete ></v-icon>
         </v-list-item-icon>
         <v-list-item-content>
@@ -28,11 +32,11 @@ export default {
   data: () => ({
     name: "",
     items: [],
-    user: { email: "" },
   }),
   created() {
     this.listTenants();
   },
+  computed: {},
   methods: {
     listTenants() {
       console.log("listTenants");
@@ -46,12 +50,38 @@ export default {
           console.log("listTenants error:", error);
         });
     },
+
+    createTenant(tenant) {
+      console.log("createTenant");
+      apis
+        .createTenant(tenant)
+        .then(this.listTenants())
+        .catch(function (error) {
+          console.log("createTenants error:", error);
+        });
+    },
+
+    deleteTenant(tenantName) {
+      console.log("deleteTenant");
+      apis
+        .deleteTenant(tenantName)
+        .then(this.listTenants())
+        .catch(function (error) {
+          console.log("deleteTenants error:", error);
+        });
+    },
+
     onDeleteItem(item) {
       console.log("onDelete item:", item);
-      this.listTenants();
+      this.deleteTenant(item.name);
     },
+
     onAddItem() {
-      this.listTenants();
+      this.createTenant({ name: this.name, description: "blah" });
+    },
+
+    onShowGroups(name) {
+      this.$router.push("/tenants/" + name + "/groups");
     },
   },
 };
