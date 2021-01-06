@@ -51,11 +51,15 @@ export default {
         });
     },
 
+    listTenantsDelayed(){
+      setTimeout(this.listTenants, 1000)
+    },
+
     createTenant(tenant) {
       console.log("createTenant");
       apis
         .createTenant(tenant)
-        .then(this.listTenants())
+        .then(this.listTenantsDelayed())
         .catch(function (error) {
           console.log("createTenants error:", error);
         });
@@ -65,7 +69,7 @@ export default {
       console.log("deleteTenant");
       apis
         .deleteTenant(tenantName)
-        .then(this.listTenants())
+        .then(this.listTenantsDelayed())
         .catch(function (error) {
           console.log("deleteTenants error:", error);
         });
