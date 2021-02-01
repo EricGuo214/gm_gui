@@ -55,7 +55,11 @@ export default {
       console.log("createTenant");
       apis
         .createTenant(tenant)
-        .then(this.listTenants())
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("created tenant: ", res.data);
+          this.listTenants();
+        })
         .catch(function (error) {
           console.log("createTenants error:", error);
         });
@@ -65,7 +69,11 @@ export default {
       console.log("deleteTenant");
       apis
         .deleteTenant(tenantName)
-        .then(this.listTenants())
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("deleted tenant: ", res.data);
+          this.listTenants();
+        })
         .catch(function (error) {
           console.log("deleteTenants error:", error);
         });

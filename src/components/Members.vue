@@ -53,7 +53,11 @@ export default {
       console.log("createMember");
       apis
         .createMember(tenantName, groupName, member)
-        .then(this.listMembers(this.tenantName, this.groupName))
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("created member: ", res.data);
+          this.listMembers(this.tenantName, this.groupName);
+        })
         .catch(function (error) {
           console.log("createMembers error:", error);
         });
@@ -63,7 +67,11 @@ export default {
       console.log("deleteMember");
       apis
         .deleteMember(tenantName, groupName, memberName)
-        .then(this.listMembers(this.tenantName, this.groupName))
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("deleted member: ", res.data);
+          this.listMembers(this.tenantName, this.groupName);
+        })
         .catch(function (error) {
           console.log("deleteMembers error:", error);
         });

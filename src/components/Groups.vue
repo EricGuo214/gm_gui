@@ -56,7 +56,11 @@ export default {
       console.log("createGroup");
       apis
         .createGroup(tenantName, group)
-        .then(this.listGroups(this.tenantName))
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("created group: ", res.data);
+          this.listGroups(this.tenantName);
+        })
         .catch(function (error) {
           console.log("createGroups error:", error);
         });
@@ -66,7 +70,11 @@ export default {
       console.log("deleteGroup");
       apis
         .deleteGroup(tenantName, groupName)
-        .then(this.listGroups(this.tenantName))
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("deleted tenant: ", res.data);
+          this.listGroups(this.tenantName);
+        })
         .catch(function (error) {
           console.log("deleteGroups error:", error);
         });
