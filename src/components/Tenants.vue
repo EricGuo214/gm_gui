@@ -51,6 +51,10 @@ export default {
         });
     },
 
+    listTenantsDelayed(){
+      setTimeout(this.listTenants, 1000)
+    },
+
     createTenant(tenant) {
       console.log("createTenant");
       apis

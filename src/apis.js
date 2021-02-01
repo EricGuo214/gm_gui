@@ -5,25 +5,26 @@ class Apis {
     user = null
     idToken = null
     constructor() {
-        firebase.auth().onAuthStateChanged((user1) => {
-            this.user = user1
-            if (this.user == null) {
-                this.idToken = null
-                return
-            }
-            console.log('user1:', user1)
-            console.log('user:', this.user)
-            user1.getIdToken(false)
-                .then((idToken1) => {
-                    this.idToken = idToken1
-                    console.log('idToken1:', idToken1)
-                    console.log('idToken:', this.idToken)
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.idToken;
-                })
-                .catch(function (error) {
-                    console.error('id token error:', error)
-                })
-        });
+        firebase.auth().onAuthStateChanged((user1) => this.refreshToken(user1));
+    }
+
+    refreshToken(user1) {
+        this.user = user1
+        if (this.user == null) {
+            this.idToken = null
+            return
+        }
+        console.log('user1:', user1)
+        console.log('user:', this.user)
+        user1.getIdToken(false)
+            .then((idToken1) => {
+                this.idToken = idToken1
+                console.log('idToken:', this.idToken)
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.idToken;
+            })
+            .catch(function (error) {
+                console.error('id token error:', error)
+            })
     }
 
     listTenants() {
@@ -62,5 +63,6 @@ class Apis {
 }
 axios.defaults.baseURL = "/api";
 let apis = new Apis()
+setInterval(apis.refreshToken(apis.user), 30 * 60 * 1000)
 
 export default apis
