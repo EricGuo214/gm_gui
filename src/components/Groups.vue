@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-breadcrumbs :items="breadCrumbs" divider="/" ></v-breadcrumbs>
     <h1>Your Groups Under {{ tenantName }}</h1>
     <v-btn color="primary" @click="onRefresh"> Refresh </v-btn>
     <v-list dense>
@@ -20,6 +21,10 @@
       dense
       label="Enter a group's name"
     ></v-text-field>
+    <v-checkbox
+      v-model="isSelfAdmin"
+      label="Is this group self administrated?"
+    ></v-checkbox>
     <v-btn color="primary" @click="onAddItem"> Add </v-btn>
   </div>
 </template>
@@ -33,10 +38,22 @@ export default {
   props: ["tenantName"],
   data: () => ({
     name: "",
+    isSelfAdmin: true,
     items: [],
+    breadCrumbs: [],
   }),
   created() {
     this.listGroups(this.tenantName);
+    this.breadCrumbs = [
+      {
+        text: "All tenants",
+        to: "/tenants",
+        exact: true,
+      },
+      {
+        text: "tenant: " + this.tenantName,
+      }
+    ];
   },
   methods: {
     listGroups(tenantName) {
@@ -81,6 +98,7 @@ export default {
       this.createGroup(this.tenantName, {
         name: this.name,
         description: "blah",
+        selfAdmin: this.isSelfAdmin,
       });
     },
 

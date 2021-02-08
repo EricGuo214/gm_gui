@@ -39,6 +39,13 @@ const routes = [
     props: true,
   },
   {
+    path: '/tenants/:tenantName/groupTree',
+    name: 'GroupTree',
+    component: () => import('@/components/GroupTree.vue'),
+    props: true,
+  },
+
+  {
     path: '/tenants/:tenantName/groups/:groupName/members',
     name: 'Members',
     component: () => import('../components/Members.vue'),

@@ -1,14 +1,31 @@
 <template>
   <div>
-    <h1>Your Tenants</h1>
+    <h1>Registered Tenants</h1>
     <v-btn color="primary" @click="listTenants"> Refresh </v-btn>
     <v-list dense>
       <v-list-item v-for="(item, i) in items" :key="i">
         <v-list-item-icon>
-          <v-icon medium @click="onShowGroups(item.name)">
-            mdi-account-multiple ></v-icon
+          <v-icon
+            medium
+            @click="onShowGroups(item.name)"
+            :color="getColor(accessibles[i])"
           >
-          <v-icon medium @click="onDeleteItem(item)"> mdi-delete ></v-icon>
+            mdi-account-multiple
+          </v-icon>
+          <v-icon
+            medium
+            @click="onShowGroupTree(item.name)"
+            :color="getColor(accessibles[i])"
+          >
+            mdi-file-tree
+          </v-icon>
+          <v-icon
+            medium
+            @click="onDeleteItem(item)"
+            :color="getColor(accessibles[i])"
+          >
+            mdi-delete ></v-icon
+          >
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -19,6 +36,7 @@
       v-model="name"
       dense
       label="Enter a tenant's name"
+      @keydown.enter="onAddItem"
     ></v-text-field>
     <v-btn color="primary" @click="onAddItem"> Add </v-btn>
   </div>
@@ -32,6 +50,7 @@ export default {
   data: () => ({
     name: "",
     items: [],
+    accessibles: [],
   }),
   created() {
     this.listTenants();
@@ -43,23 +62,31 @@ export default {
       apis
         .listTenants()
         .then((res) => {
-          this.items = res.data;
-          console.log("tenants:", this.items);
+          apis
+            .testTenants({ tenants: res.data })
+            .then((res) => {
+              this.items = res.data.tenants;
+              this.accessibles = res.data.accessibles;
+            })
+            .catch((error) => {
+              console.log("testTenants error:", error);
+            });
         })
         .catch(function (error) {
           console.log("listTenants error:", error);
         });
     },
 
-    listTenantsDelayed(){
-      setTimeout(this.listTenants, 1000)
-    },
-
     createTenant(tenant) {
       console.log("createTenant");
       apis
         .createTenant(tenant)
-        .then(this.listTenantsDelayed())
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          // console.log("created tenant: ", res.data);
+
+          this.listTenants();
+        })
         .catch(function (error) {
           console.log("createTenants error:", error);
         });
@@ -69,7 +96,10 @@ export default {
       console.log("deleteTenant");
       apis
         .deleteTenant(tenantName)
-        .then(this.listTenantsDelayed())
+        // eslint-disable-next-line no-unused-vars
+        .then((res) => {
+          this.listTenants();
+        })
         .catch(function (error) {
           console.log("deleteTenants error:", error);
         });
@@ -86,6 +116,17 @@ export default {
 
     onShowGroups(name) {
       this.$router.push("/tenants/" + name + "/groups");
+    },
+
+    onShowGroupTree(name) {
+      this.$router.push("/tenants/" + name + "/groupTree");
+    },
+
+    getColor(accessible) {
+      if (accessible) {
+        return "primary";
+      }
+      return "gray";
     },
   },
 };

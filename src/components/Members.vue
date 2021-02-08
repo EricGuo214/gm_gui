@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-breadcrumbs :items="breadCrumbs" divider="/"></v-breadcrumbs>
     <h1>Your Members Under Group {{ groupName }}</h1>
     <v-btn color="primary" @click="onRefresh"> Refresh </v-btn>
     <v-list dense>
@@ -17,6 +18,10 @@
       dense
       label="Enter a member's name"
     ></v-text-field>
+    <v-checkbox
+      v-model="isEndUser"
+      label="Is it a normal member (i.e., not a group)"
+    ></v-checkbox>
     <v-btn color="primary" @click="onAddItem"> Add </v-btn>
   </div>
 </template>
@@ -31,9 +36,26 @@ export default {
   data: () => ({
     name: "",
     items: [],
+    isEndUser: true,
+    breadCrumbs: [],
   }),
   created() {
     this.listMembers(this.tenantName, this.groupName);
+    this.breadCrumbs = [
+      {
+        text: "All tenants",
+        to: "/tenants",
+        exact: true,
+      },
+      {
+        text: "Tenant: " + this.tenantName,
+        to: ["/tenants", this.tenantName, "groups"].join("/"),
+        exact: true,
+      },
+      {
+        text: "Group: " + this.groupName,
+      },
+    ];
   },
   methods: {
     listMembers(tenantName, groupName) {
@@ -77,6 +99,7 @@ export default {
     onAddItem() {
       this.createMember(this.tenantName, this.groupName, {
         name: this.name,
+        endUser: this.isEndUser,
       });
     },
 

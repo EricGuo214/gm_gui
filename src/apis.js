@@ -35,6 +35,10 @@ class Apis {
         return axios.post('/tenants', tenant)
     }
 
+    testTenants(tenants){
+        return axios.post('/tenants/test', tenants)
+    }
+
     deleteTenant(tenantName) {
         return axios.delete('/tenants/' + tenantName)
     }
