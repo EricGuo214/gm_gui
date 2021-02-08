@@ -84,7 +84,6 @@ export default {
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
           // console.log("created tenant: ", res.data);
-
           this.listTenants();
         })
         .catch(function (error) {
@@ -98,6 +97,7 @@ export default {
         .deleteTenant(tenantName)
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
+          // console.log("deleted tenant: ", res.data);
           this.listTenants();
         })
         .catch(function (error) {
