@@ -54,13 +54,16 @@
             </v-list-item-icon>
             <v-list-item-title>Members</v-list-item-title>
           </v-list-item>
-
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
     <v-main>
       <v-container fluid>
+        <v-alert dense type="warning" dismissible v-if="alertMsg != ''">
+          {{ alertMsg }}
+        </v-alert>
+
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -70,6 +73,7 @@
 
 <script>
 import firebase from "firebase";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -78,6 +82,9 @@ export default {
       group: null,
       user: null,
     };
+  },
+  computed: {
+    ...mapGetters(["alertMsg"]),
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {

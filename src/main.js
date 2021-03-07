@@ -3,6 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import firebase from 'firebase'
 import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -19,7 +20,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 new Vue({
-  vuetify,
   router,
+  vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

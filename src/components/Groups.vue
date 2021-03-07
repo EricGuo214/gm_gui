@@ -32,6 +32,7 @@
 <script>
 // import firebase from "firebase";
 import apis from "@/apis.js";
+import { mapMutations } from "vuex";
 
 export default {
   components: {},
@@ -56,6 +57,8 @@ export default {
     ];
   },
   methods: {
+    ...mapMutations(["setAlertMsg"]),
+
     listGroups(tenantName) {
       console.log("listGroups");
       apis
@@ -64,8 +67,9 @@ export default {
           this.items = res.data;
           console.log("groups:", this.items);
         })
-        .catch(function (error) {
-          console.log("listGroups error:", error);
+        .catch( (error) => {
+          this.setAlertMsg(error.response.data);
+          // console.log("listGroups error:", error);
         });
     },
 
@@ -78,8 +82,9 @@ export default {
           // console.log("created group: ", res.data);
           this.listGroups(this.tenantName);
         })
-        .catch(function (error) {
-          console.log("createGroups error:", error);
+        .catch((error) => {
+          this.setAlertMsg(error.response.data);
+          // console.log("createGroups error:", error);
         });
     },
 
@@ -92,8 +97,9 @@ export default {
           // console.log("deleted tenant: ", res.data);
           this.listGroups(this.tenantName);
         })
-        .catch(function (error) {
-          console.log("deleteGroups error:", error);
+        .catch( (error)=> {
+          this.setAlertMsg(error.response.data);
+          // console.log("deleteGroups error:", error);
         });
     },
 

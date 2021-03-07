@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Registered Tenants</h1>
+    <h3>Tenants in the system</h3>
     <v-btn color="primary" @click="listTenants"> Refresh </v-btn>
     <v-list dense>
       <v-list-item v-for="(item, i) in items" :key="i">
@@ -24,8 +24,8 @@
             @click="onDeleteItem(item)"
             :color="getColor(accessibles[i])"
           >
-            mdi-delete ></v-icon
-          >
+            mdi-delete
+          </v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -45,6 +45,7 @@
 <script>
 // import firebase from "firebase";
 import apis from "@/apis.js";
+import { mapMutations } from "vuex";
 
 export default {
   data: () => ({
@@ -57,6 +58,7 @@ export default {
   },
   computed: {},
   methods: {
+    ...mapMutations(["setAlertMsg"]),
     listTenants() {
       console.log("listTenants");
       apis
@@ -69,11 +71,13 @@ export default {
               this.accessibles = res.data.accessibles;
             })
             .catch((error) => {
-              console.log("testTenants error:", error);
+              this.setAlertMsg(error.response.data);
+              // console.log("testTenants error:", error);
             });
         })
-        .catch(function (error) {
-          console.log("listTenants error:", error);
+        .catch( (error) => {
+          this.setAlertMsg(error.response.data);
+          // console.log("listTenants error:", error);
         });
     },
 
@@ -86,8 +90,9 @@ export default {
           // console.log("created tenant: ", res.data);
           this.listTenants();
         })
-        .catch(function (error) {
-          console.log("createTenants error:", error);
+        .catch( (error) => {
+          this.setAlertMsg(error.response.data);
+          // console.log("createTenants error:", error);
         });
     },
 
@@ -100,8 +105,9 @@ export default {
           // console.log("deleted tenant: ", res.data);
           this.listTenants();
         })
-        .catch(function (error) {
-          console.log("deleteTenants error:", error);
+        .catch( (error) => {
+          this.setAlertMsg(error.response.data);
+          // console.log("deleteTenants error:", error);
         });
     },
 
