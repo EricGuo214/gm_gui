@@ -13,6 +13,14 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <v-spacer></v-spacer>
+    <div></div>
+    <v-row>
+      <h3 class="mt-12">Add new member</h3>
+    </v-row>
+    <v-row>
+      <h3 class="my-4"></h3>
+    </v-row>
     <v-text-field
       v-model="name"
       dense

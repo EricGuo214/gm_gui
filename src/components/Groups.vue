@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-breadcrumbs :items="breadCrumbs" divider="/" ></v-breadcrumbs>
+    <v-breadcrumbs :items="breadCrumbs" divider="/"></v-breadcrumbs>
     <h1>Your Groups Under {{ tenantName }}</h1>
     <v-btn color="primary" @click="onRefresh"> Refresh </v-btn>
     <v-list dense>
@@ -13,9 +13,20 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title v-text="item.name"></v-list-item-title>
+          <v-list-item-subtitle
+            v-text="getAdminGroupName(item)"
+          ></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <v-spacer></v-spacer>
+    <div></div>
+    <v-row>
+      <h3 class="mt-12">Add new groups</h3>
+    </v-row>
+    <v-row>
+      <h3 class="my-4"></h3>
+    </v-row>
     <v-text-field
       v-model="name"
       dense
@@ -25,6 +36,11 @@
       v-model="isSelfAdmin"
       label="Is this group self administrated?"
     ></v-checkbox>
+    <v-text-field
+      v-if="!isSelfAdmin"
+      v-model="adminGroupName"
+      label="Enter administrator group name"
+    ></v-text-field>
     <v-btn color="primary" @click="onAddItem"> Add </v-btn>
   </div>
 </template>
@@ -40,6 +56,7 @@ export default {
   data: () => ({
     name: "",
     isSelfAdmin: true,
+    adminGroupName: "",
     items: [],
     breadCrumbs: [],
   }),
@@ -53,12 +70,18 @@ export default {
       },
       {
         text: "tenant: " + this.tenantName,
-      }
+      },
     ];
   },
   methods: {
     ...mapMutations(["setAlertMsg"]),
 
+    getAdminGroupName: function (group) {
+      if (group.adminGroupName != null) {
+        return group.adminGroupName;
+      }
+      return "This is self administrated";
+    },
     listGroups(tenantName) {
       console.log("listGroups");
       apis
@@ -67,7 +90,7 @@ export default {
           this.items = res.data;
           console.log("groups:", this.items);
         })
-        .catch( (error) => {
+        .catch((error) => {
           this.setAlertMsg(error.response.data);
           // console.log("listGroups error:", error);
         });
@@ -97,7 +120,7 @@ export default {
           // console.log("deleted tenant: ", res.data);
           this.listGroups(this.tenantName);
         })
-        .catch( (error)=> {
+        .catch((error) => {
           this.setAlertMsg(error.response.data);
           // console.log("deleteGroups error:", error);
         });
@@ -109,11 +132,15 @@ export default {
     },
 
     onAddItem() {
-      this.createGroup(this.tenantName, {
+      let group = {
         name: this.name,
         description: "blah",
-        selfAdmin: this.isSelfAdmin,
-      });
+        adminGroupName: null,
+      };
+      if (!this.isSelfAdmin) {
+        group.adminGroupName = this.adminGroupName;
+      }
+      this.createGroup(this.tenantName, group);
     },
 
     onRefresh() {
