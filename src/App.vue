@@ -41,19 +41,7 @@
             <v-list-item-title>Tenant</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/groups">
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Group</v-list-item-title>
-          </v-list-item>
 
-          <v-list-item to="/memebers">
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Members</v-list-item-title>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
