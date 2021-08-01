@@ -14,12 +14,10 @@ class Apis {
             this.idToken = null
             return
         }
-        console.log('user1:', user1)
-        console.log('user:', this.user)
-        user1.getIdToken(false)
+        this.user.getIdToken(false)
             .then((idToken1) => {
                 this.idToken = idToken1
-                console.log('idToken:', this.idToken)
+                console.log('idToken is refreshed')
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.idToken;
             })
             .catch(function (error) {
@@ -35,7 +33,7 @@ class Apis {
         return axios.post('/tenants', tenant)
     }
 
-    testTenants(tenants){
+    testTenants(tenants) {
         return axios.post('/tenants/test', tenants)
     }
 
@@ -67,6 +65,11 @@ class Apis {
 }
 axios.defaults.baseURL = "/api";
 let apis = new Apis()
-setInterval(apis.refreshToken(apis.user), 30 * 60 * 1000)
+
+function refreshToken(apis) {
+    apis.refreshToken(apis.user)
+}
+
+setInterval(refreshToken, 30 * 60 * 1000, apis)
 
 export default apis

@@ -5,11 +5,11 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:8081",
+        target: "https://gm-proxy-efpdqhls4a-uw.a.run.app",
         secure: false,
-        pathRewrite:{
-          "/api": ""
-        }
+        // pathRewrite:{
+        //   "/api": ""
+        // }
       }
     }
   }

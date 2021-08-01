@@ -8,13 +8,12 @@ import store from './store'
 Vue.config.productionTip = false
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBQmGTQFJFIqNfDgT0yVQSYAR9R_B0Lrk4",
-  authDomain: "david-eric-919f0.firebaseapp.com",
-  databaseURL: "https://david-eric-919f0.firebaseio.com",
-  projectId: "david-eric-919f0",
-  storageBucket: "david-eric-919f0.appspot.com",
-  messagingSenderId: "1081822423493",
-  appId: "1:1081822423493:web:3bb194fa900803227f43ac"
+  apiKey: "AIzaSyA-18ljBNqTbrev7qwLdFj8qGUDNXg6Jmc",
+  authDomain: "group-management-de.firebaseapp.com",
+  projectId: "group-management-de",
+  storageBucket: "group-management-de.appspot.com",
+  messagingSenderId: "1032674877883",
+  appId: "1:1032674877883:web:76e48674b7ba3388c3e49e"
 };
 
 firebase.initializeApp(firebaseConfig);
